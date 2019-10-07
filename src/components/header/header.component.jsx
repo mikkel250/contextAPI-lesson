@@ -9,7 +9,7 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 
 import CurrentUserContext from "../../contexts/current-user/current-user.context";
-import CartContext from "../../contexts/cart/cart.context";
+import { CartContext } from "../../providers/cart/cart.provider";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
@@ -17,8 +17,7 @@ import "./header.styles.scss";
 
 const Header = () => {
   const currentUser = useContext(CurrentUserContext);
-  const [hidden, setHidden] = useState(true); // the hook value, and the function to set the value, and the default value (true)
-  const toggleHidden = () => setHidden(!hidden);
+  const { hidden } = useContext(CartContext);
 
   return (
     <div className="header">
@@ -41,9 +40,8 @@ const Header = () => {
             SIGN IN
           </Link>
         )}
-        <CartContext.Provider value={{ hidden, toggleHidden }}>
-          <CartIcon />
-        </CartContext.Provider>
+
+        <CartIcon />
       </div>
       {hidden ? null : <CartDropdown />}
     </div>
